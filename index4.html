@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="taskMasterApp">
+<head>
+    <meta charset="UTF-8">
+    <title>TaskMaster Hub</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+        .app-container {
+            background: #fff;
+            width: 420px;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .add-task {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .add-task input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        .add-task button {
+            background: #667eea;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .add-task button:hover {
+            background: #5a67d8;
+        }
+        .filters {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .filters button {
+            background: #f1f1f1;
+            border: none;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .filters button:hover {
+            background: #667eea;
+            color: white;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .task-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 14px;
+        }
+
+        .edit {
+            color: #38a169;
+        }
+
+        .delete {
+            color: #e53e3e;
+        }
+    </style>
+</head>
+<body ng-controller="TaskController">
+<div class="app-container">
+    <h2>TaskMaster Hub</h2>
+    <div class="add-task">
+        <input type="text" ng-model="newTask" placeholder="Enter Task Name">
+        <button ng-click="addTask()">Add</button>
+    </div>
+    <div class="filters">
+        <button ng-click="filterStatus='all'">All</button>
+        <button ng-click="filterStatus='completed'">Completed</button>
+        <button ng-click="filterStatus='pending'">Pending</button>
+    </div>
+    <ul>
+        <li ng-repeat="task in tasks | filter:taskFilter">
+            <div class="task-left">
+                <input type="checkbox" ng-model="task.completed">
+                <span ng-class="{completed: task.completed}">
+                    {{task.name}}
+                </span>
+            </div>
+            <div class="task-actions">
+                <button class="edit" ng-click="editTask(task)">✏️</button>
+                <button class="delete" ng-click="deleteTask($index)">🗑</button>
+            </div>
+        </li>
+    </ul>
+</div>
+<script>
+    var app = angular.module("taskMasterApp", []);
+    app.controller("TaskController", function ($scope) {
+        $scope.tasks = [];
+        $scope.filterStatus = "all";
+        $scope.addTask = function () {
+            if ($scope.newTask) {
+                $scope.tasks.push({
+                    name: $scope.newTask,
+                    completed: false
+                });
+                $scope.newTask = "";
+            }
+        };
+        $scope.deleteTask = function (index) {
+            $scope.tasks.splice(index, 1);
+        };
+        $scope.editTask = function (task) {
+            var updated = prompt("Edit Task", task.name);
+            if (updated !== null) {
+                task.name = updated;
+            }
+        };
+        $scope.taskFilter = function (task) {
+            if ($scope.filterStatus === "completed")
+                return task.completed;
+            if ($scope.filterStatus === "pending")
+                return !task.completed;
+            return true;
+        };
+    });
+</script>
+</body>
+</html>

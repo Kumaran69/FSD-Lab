@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Management</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5f6fa;
+}
+
+.container{
+width:80%;
+margin:auto;
+}
+
+h1{
+text-align:center;
+}
+
+input{
+padding:10px;
+margin:5px;
+}
+
+button{
+padding:10px;
+background:blue;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+table{
+width:100%;
+margin-top:20px;
+border-collapse: collapse;
+}
+
+th,td{
+border:1px solid black;
+padding:10px;
+}
+
+</style>
+
+</head>
+<body>
+<div class="container">
+<h1>Student Management System</h1>
+<input type="hidden" id="studentId">
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="department" placeholder="Department">
+<input type="text" id="year" placeholder="Year">
+<input type="text" id="email" placeholder="Email">
+<input type="text" id="mobile" placeholder="Mobile">
+<button onclick="addStudent()">Add Student</button>
+<button onclick="updateStudent()">Update Student</button>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Department</th>
+<th>Year</th>
+<th>Email</th>
+<th>Mobile</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody id="studentTable"></tbody>
+</table>
+</div>
+<script>
+
+const API = "http://localhost:2000";
+function addStudent(){
+const student = {
+name:document.getElementById("name").value,
+department:document.getElementById("department").value,
+year:document.getElementById("year").value,
+email:document.getElementById("email").value,
+mobile:document.getElementById("mobile").value
+}
+fetch(API+"/addStudent",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(student)
+})
+.then(()=>loadStudents())
+
+}
+function loadStudents(){
+fetch(API+"/students")
+.then(res=>res.json())
+.then(data=>{
+let table="";
+
+data.forEach(student=>{
+
+table+=`
+
+<tr>
+<td>${student.name}</td>
+<td>${student.department}</td>
+<td>${student.year}</td>
+<td>${student.email}</td>
+<td>${student.mobile}</td>
+<td>
+<button onclick="deleteStudent('${student._id}')">Delete</button>
+<button onclick="editStudent('${student._id}','${student.name}','${student.department}','${student.year}','${student.email}','${student.mobile}')">Edit</button>
+</td>
+</tr>
+`
+});
+document.getElementById("studentTable").innerHTML=table;
+});
+}
+function deleteStudent(id){
+
+fetch(API+"/deleteStudent/"+id,{
+method:"DELETE"
+})
+.then(()=>loadStudents())
+}
+function editStudent(id,name,department,year,email,mobile){
+document.getElementById("studentId").value=id;
+document.getElementById("name").value=name;
+document.getElementById("department").value=department;
+document.getElementById("year").value=year;
+document.getElementById("email").value=email;
+document.getElementById("mobile").value=mobile;
+}
+function updateStudent(){
+const id = document.getElementById("studentId").value;
+const student = {
+name:document.getElementById("name").value,
+department:document.getElementById("department").value,
+year:document.getElementById("year").value,
+email:document.getElementById("email").value,
+mobile:document.getElementById("mobile").value
+}
+fetch(API+"/updateStudent/"+id,{
+method:"PUT",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify(student)
+})
+.then(()=>loadStudents())
+}
+loadStudents();
+</script>
+</body>
+</html>

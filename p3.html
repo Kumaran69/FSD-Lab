@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+
+<script>
+    var app = angular.module("myShoppingList", []);
+
+    app.controller("myCtrl", function($scope) {
+
+        // Default product list
+        $scope.product = [
+            { pn: "Milk", p: 50 },
+            { pn: "Bread", p: 20 },
+            { pn: "Cheese", p: 100 }
+        ];
+
+        // Function to add new item
+        $scope.addItem = function() {
+            $scope.product.push({
+                pn: $scope.prod,
+                p: $scope.price
+            });
+        };
+
+    });
+</script>
+
+<div ng-app="myShoppingList" ng-controller="myCtrl">
+
+    Product Name:
+    <input type="text" ng-model="prod">
+
+    Price:
+    <input type="number" ng-model="price">
+
+    <button ng-click="addItem()">Add</button>
+
+    <br><br>
+
+    <table border="1">
+        <tr ng-repeat="x in product">
+            <td>{{x.pn}}</td>
+            <td>{{x.p}}</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>
+
+

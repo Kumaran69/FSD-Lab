@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+
+<body>
+
+<script>
+    var app = angular.module("myEmployeeList", []);
+
+    app.controller("myCtrl", function($scope) {
+
+        // Default employee list
+        $scope.employee = [
+            { en: "John", sal: 30000 },
+            { en: "Priya", sal: 25000 },
+            { en: "Arun", sal: 28000 }
+        ];
+
+        // Function to add new employee
+        $scope.addEmployee = function() {
+            $scope.employee.push({
+                en: $scope.emp,
+                sal: $scope.salary
+            });
+        };
+
+    });
+</script>
+
+<div ng-app="myEmployeeList" ng-controller="myCtrl">
+
+    Employee Name:
+    <input type="text" ng-model="emp">
+
+    Salary:
+    <input type="number" ng-model="salary">
+
+    <button ng-click="addEmployee()">Add</button>
+
+    <br><br>
+
+    <table border="1">
+        <tr ng-repeat="x in employee">
+            <td>{{x.en}}</td>
+            <td>{{x.sal}}</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>
+

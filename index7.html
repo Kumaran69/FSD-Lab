@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Employee Payroll System</title>
+
+<style>
+
+body {
+font-family: Arial, sans-serif;
+background: #f5f6fa;
+margin: 0;
+padding: 0;
+}
+
+.container {
+width: 50%;
+margin: auto;
+padding: 20px;
+}
+
+h1 {
+text-align: center;
+color: #2f3640;
+margin-bottom: 30px;
+}
+
+.card {
+background: white;
+padding: 20px;
+margin: 20px 0;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input {
+display: block;
+width: 50%;
+padding: 12px;
+margin: 8px 0;
+border: 1px solid #ccc;
+border-radius: 6px;
+font-size: 15px;
+}
+
+button {
+padding: 12px 18px;
+margin: 5px;
+border: none;
+background: #0984e3;
+color: white;
+border-radius: 6px;
+cursor: pointer;
+font-size: 14px;
+}
+
+button:hover {
+background: #0652DD;
+}
+
+#output {
+margin-top: 10px;
+padding: 15px;
+background: #f1f2f6;
+border-radius: 6px;
+white-space: pre-wrap;
+font-family: monospace;
+}
+
+.operations button{
+background:#00b894;
+}
+
+.operations button:hover{
+background:#019875;
+}
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Employee Payroll Dashboard</h1>
+<div class="card">
+<h2>Add Employee</h2>
+
+<input type="text" id="emp_id" placeholder="Employee ID">
+<input type="text" id="name" placeholder="Employee Name">
+<input type="text" id="department" placeholder="Department">
+<input type="number" id="basic_salary" placeholder="Basic Salary">
+<input type="number" id="hra" placeholder="HRA">
+<input type="number" id="allowances" placeholder="Allowances">
+
+<button onclick="addEmployee()">Add Employee</button>
+
+</div>
+
+<div class="card operations">
+
+<h2>Payroll Operations</h2>
+
+<button onclick="getEmployees()">View Employees</button>
+<button onclick="departmentSalary()">Department Salary</button>
+<button onclick="averageSalary()">Average Salary</button>
+<button onclick="highestPaid()">Highest Paid</button>
+<button onclick="lowestPaid()">Lowest Paid</button>
+<button onclick="totalPayroll()">Total Payroll</button>
+
+</div>
+
+<div class="card">
+
+<h2>Output</h2>
+<div id="output">Results will appear here...</div>
+</div>
+</div>
+<script>
+
+const API = "http://localhost:3000"
+
+// Add Employee
+async function addEmployee(){
+
+try{
+
+const data = {
+emp_id: document.getElementById("emp_id").value,
+name: document.getElementById("name").value,
+department: document.getElementById("department").value,
+basic_salary: Number(document.getElementById("basic_salary").value),
+hra: Number(document.getElementById("hra").value),
+allowances: Number(document.getElementById("allowances").value)
+}
+
+if(!data.emp_id || !data.name || !data.department){
+alert("Please fill all fields")
+return
+}
+
+await fetch(`${API}/add`,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(data)
+})
+
+alert("Employee Added Successfully")
+
+getEmployees()
+
+}catch(error){
+alert("Server not running")
+console.log(error)
+}
+
+}
+
+
+// View Employees
+async function getEmployees(){
+
+try{
+
+const res = await fetch(`${API}/employees`)
+const data = await res.json()
+
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+
+}catch(error){
+alert("Server not running")
+}
+
+}
+
+// Department Salary
+async function departmentSalary(){
+
+try{
+const res = await fetch(`${API}/department-salary`)
+const data = await res.json()
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+}catch(error){
+alert("Server not running")
+}
+
+}
+// Average Salary
+async function averageSalary(){
+
+try{
+const res = await fetch(`${API}/average-salary`)
+const data = await res.json()
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+
+}catch(error){
+alert("Server not running")
+}
+
+}
+// Highest Paid
+async function highestPaid(){
+
+try{
+const res = await fetch(`${API}/highest`)
+const data = await res.json()
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+}catch(error){
+alert("Server not running")
+}
+}
+// Lowest Paid
+async function lowestPaid(){
+try{
+const res = await fetch(`${API}/lowest`)
+const data = await res.json()
+
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+
+}catch(error){
+alert("Server not running")
+}
+
+}
+// Total Payroll
+async function totalPayroll(){
+
+try{
+
+const res = await fetch(`${API}/total`)
+const data = await res.json()
+
+document.getElementById("output").innerHTML =
+JSON.stringify(data,null,2)
+}catch(error){
+alert("Server not running")
+}
+}
+</script>
+</body>
+</html>
