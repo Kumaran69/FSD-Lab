@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,3 +175,181 @@ const questions = [
 </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KCET Learning Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<style>
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    align-items: center;
+  }
+  .quiz-card {
+    max-width: 600px;
+    width: 100%;
+    border-radius: 15px;
+  }
+  .option:hover {
+    background-color: #f1f1f1;
+    border-radius: 6px;
+  }
+</style>
+</head>
+<body>
+<div class="container px-3">
+  <div class="card quiz-card mx-auto shadow">
+    <div class="card-body">
+
+      <h4 class="text-center mb-3 fw-bold">KCET Learning Quiz</h4>
+
+      <div class="progress mb-4">
+        <div class="progress-bar bg-success" id="progress"></div>
+      </div>
+
+      <div id="quiz">
+        <p id="question" class="fw-semibold"></p>
+        <div id="options"></div>
+        <p id="error" class="text-danger small"></p>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn btn-outline-secondary" id="prev">Previous</button>
+          <button class="btn btn-primary" id="next">Next</button>
+        </div>
+      </div>
+
+      <div id="result" class="text-center d-none">
+        <h5 class="mb-3">Quiz Completed 🎉</h5>
+        <p id="score" class="fw-bold fs-5"></p>
+        <button class="btn btn-success" id="restart">Restart Quiz</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+$(function () {
+const questions = [
+  {
+    q: "HTML stands for?",
+    o: [
+      "Hyper Text Markup Language",
+      "High Text Machine Language",
+      "Hyperlinks Text Mark Language"
+    ],
+    a: 0
+  },
+  {
+    q: "Which language styles web pages?",
+    o: ["HTML", "jQuery", "CSS"],
+    a: 2
+  },
+  {
+    q: "Which library is used for DOM manipulation?",
+    o: ["Bootstrap", "jQuery", "React"],
+    a: 1
+  },
+  {
+    q: "Which HTML tag is used to create a list?",
+    o: ["&lt;list&gt;", "&lt;ul&gt;", "&lt;li&gt;"],
+    a: 1
+  },
+  {
+    q: "Which CSS property is used to change text color?",
+    o: ["color", "font-style", "text-align"],
+    a: 0
+  },
+  {
+    q: "Which symbol is used for ID selector in CSS?",
+    o: [".", "#", "*"],
+    a: 1
+  },
+  {
+    q: "Bootstrap is mainly used for?",
+    o: ["Database", "Responsive UI", "Backend"],
+    a: 1
+  },
+  {
+    q: "Does Bootstrap 5 require jQuery?",
+    o: ["Yes", "No", "Sometimes"],
+    a: 1
+  },
+  {
+    q: "Which HTML tag is used to create a table?",
+    o: ["&lt;table&gt;", "&lt;tr&gt;", "&lt;td&gt;"],
+    a: 0
+  },
+  {
+    q: "Which jQuery syntax selects an element by ID?",
+    o: ["getElementById()", "$('#id')", "$('.id')"],
+    a: 1
+  }
+];
+  let index = 0, answers = [];
+
+  function loadQuestion() {
+    $("#error").text("");
+    const q = questions[index];
+
+    $("#question").text(`${index + 1}. ${q.q}`);
+    $("#options").html(
+      q.o.map((opt,i)=>`
+        <div class="form-check option p-2">
+          <input class="form-check-input" type="radio" name="opt" value="${i}" ${answers[index]==i?"checked":""}>
+          <label class="form-check-label">${opt}</label>
+        </div>`).join("")
+    );
+
+    $("#prev").prop("disabled", index === 0);
+    $("#next").text(index === questions.length - 1 ? "Finish" : "Next");
+    $("#progress").css("width", ((index + 1) / questions.length * 100) + "%");
+  }
+
+  $("#next").click(() => {
+    const selected = $("input[name='opt']:checked").val();
+    if (selected === undefined) {
+      $("#error").text("Please select an option.");
+      return;
+    }
+    answers[index] = +selected;
+    index < questions.length - 1 ? (index++, loadQuestion()) : showResult();
+  });
+
+  $("#prev").click(() => {
+    if (index > 0) {
+      index--;
+      loadQuestion();
+    }
+  });
+
+  function showResult() {
+    const correct = answers.filter((a,i)=>a===questions[i].a).length;
+    $("#quiz").hide();
+    $("#result").removeClass("d-none");
+    $("#score").text(`Score: ${correct * 2} / ${questions.length * 2} Marks`);
+  }
+
+  $("#restart").click(() => {
+    index = 0;
+    answers = [];
+    $("#result").addClass("d-none");
+    $("#quiz").show();
+    loadQuestion();
+  });
+
+  loadQuestion();
+});
+</script>
+</body>
+</html>
+>>>>>>> 252fd35fbcb8fd802b6793b43152cbd9574568c9
