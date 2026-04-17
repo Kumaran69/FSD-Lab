@@ -1,0 +1,199 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body >
+
+<h2>Simple Quiz</h2>
+
+<p id="question"></p>
+
+<input type="radio" name="option" value="0"> <span id="opt1"></span><br>
+<input type="radio" name="option" value="1"> <span id="opt2"></span><br>
+<input type="radio" name="option" value="2"> <span id="opt3"></span><br>
+<input type="radio" name="option" value="3"> <span id="opt4"></span><br><br>
+
+<button id="btn">Submit</button>
+
+<p id="result"></p>
+
+<script>
+
+var questions = [
+"What is HTML used for?",
+"What is CSS used for?",
+"What is JavaScript used for?",
+"What is Bootstrap used for?",
+"What is jQuery used for?"
+];
+
+var options = [
+["Structure", "Design", "Database", "Server"],
+["Programming", "Styling", "Database", "Hosting"],
+["Styling", "Structure", "Interactivity", "Hosting"],
+["Database", "Responsive Design", "Server", "API"],
+["Simplify JavaScript", "Database", "Hosting", "Design"]
+];
+
+var answers = [0,1,2,1,0];
+
+var i = 0;
+
+function loadQuestion(){
+$("#question").text(questions[i]);
+$("#opt1").text(options[i][0]);
+$("#opt2").text(options[i][1]);
+$("#opt3").text(options[i][2]);
+$("#opt4").text(options[i][3]);
+$("input[name='option']").prop("checked", false);
+}
+
+loadQuestion();
+
+$("#btn").click(function(){
+
+var selected = $("input[name='option']:checked").val();
+
+if(selected == answers[i]){
+$("#result").text("Correct Answer");
+}
+else{
+$("#result").text("Wrong Answer");
+}
+
+i++;
+
+if(i < questions.length){
+setTimeout(loadQuestion,1000);
+}
+else{
+$("#btn").text("Quiz Finished");
+}
+
+});
+
+</script>
+
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<title>Task Manager</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="ctrl">
+
+<h2>Task Manager</h2>
+
+<input type="text" ng-model="task" placeholder="Enter Task">
+<button ng-click="add()">Add</button>
+
+<ul>
+<li ng-repeat="t in tasks">
+{{t}} 
+<button ng-click="remove($index)">Delete</button>
+</li>
+</ul>
+
+<p>Total Tasks: {{tasks.length}}</p>
+
+<script>
+
+var app = angular.module("app",[])
+
+app.controller("ctrl",function($scope){
+
+$scope.tasks = []
+
+$scope.add = function(){
+if($scope.task){
+$scope.tasks.push($scope.task)
+$scope.task = ""
+}
+}
+
+$scope.remove = function(index){
+$scope.tasks.splice(index,1)
+}
+
+})
+
+</script>
+
+</body>
+</html> -->
+
+<!-- 
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+<title>Simple Calculator</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="ctrl">
+
+<h2>Simple Calculator</h2>
+
+<input type="number" ng-model="a" placeholder="Enter First Number">
+<br><br>
+
+<input type="number" ng-model="b" placeholder="Enter Second Number">
+<br><br>
+
+<button ng-click="add()">Add</button>
+<button ng-click="clear()">Clear</button>
+
+<h3>Result : {{result}}</h3>
+
+<script>
+
+var app = angular.module("app",[])
+
+app.controller("ctrl",function($scope){
+
+$scope.add = function(){
+$scope.result = Number($scope.a) + Number($scope.b)
+}
+
+$scope.clear = function(){
+$scope.a = ""
+$scope.b = ""
+$scope.result = ""
+}
+
+})
+
+</script>
+
+</body>
+</html>  -->
+
+<html ng-app="app">
+<body ng-controller="ctrl">
+
+First Name:
+<input type="text" ng-model="fname"><br><br>
+
+Last Name:
+<input type="text" ng-model="lname">
+
+<h3>Full Name: {{ (fname + " " + lname) | uppercase }}</h3>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+<script>
+var app=angular.module("app",[]);
+app.controller("ctrl",function($scope){});
+</script>
+
+</body>
+</html>
