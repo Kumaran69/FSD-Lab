@@ -177,7 +177,7 @@ $scope.result = ""
 </body>
 </html>  -->
 
-<html ng-app="app">
+<!-- <html ng-app="app">
 <body ng-controller="ctrl">
 
 First Name:
@@ -195,5 +195,87 @@ var app=angular.module("app",[]);
 app.controller("ctrl",function($scope){});
 </script>
 
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+<center>
+<h2>Simple Quiz</h2>
+
+<p id="question"></p>
+
+<input type="radio" name="option" value="0"> <span id="opt1"></span><br>
+<input type="radio" name="option" value="1"> <span id="opt2"></span><br>
+<input type="radio" name="option" value="2"> <span id="opt3"></span><br>
+<input type="radio" name="option" value="3"> <span id="opt4"></span><br><br>
+
+<button id="btn">Submit</button>
+
+<p id="result"></p>
+
+<script>
+
+var questions = [
+"What is HTML used for?",
+"What is CSS used for?",
+"What is JavaScript used for?",
+"What is Bootstrap used for?",
+"What is jQuery used for?"
+];
+
+var options = [
+["Structure", "Design", "Database", "Server"],
+["Programming", "Styling", "Database", "Hosting"],
+["Styling", "Structure", "Interactivity", "Hosting"],
+["Database", "Responsive Design", "Server", "API"],
+["Simplify JavaScript", "Database", "Hosting", "Design"]
+];
+
+var answers = [0,1,2,1,0];
+
+var i = 0;
+
+function loadQuestion(){
+$("#question").text(questions[i]);
+$("#opt1").text(options[i][0]);
+$("#opt2").text(options[i][1]);
+$("#opt3").text(options[i][2]);
+$("#opt4").text(options[i][3]);
+$("input[name='option']").prop("checked", false);
+}
+
+loadQuestion();
+
+$("#btn").click(function(){
+
+var selected = $("input[name='option']:checked").val();
+
+if(selected == answers[i]){
+$("#result").text("Correct Answer");
+}
+else{
+$("#result").text("Wrong Answer");
+}
+
+i++;
+
+if(i < questions.length){
+setTimeout(loadQuestion,1000);
+}
+else{
+$("#btn").text("Quiz Finished");
+}
+
+});
+
+</script>
+</center>
 </body>
 </html>

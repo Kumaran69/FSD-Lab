@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -381,5 +381,137 @@ const questions = [
   loadQuestion();
 });
 </script>
+</body>
+</html>
+ -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input id="usd">
+<button onclick="convert()">Convert</button>
+
+<script>
+function convert(){
+var usd=document.getElementById("usd").value
+alert(usd*83)
+}
+</script>
+</body>
+</html> -->
+<!-- 
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+<title>Simple Calculator</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="ctrl">
+
+<h2>Simple Calculator</h2>
+
+<input type="number" ng-model="a" placeholder="Enter First Number">
+<br><br>
+
+<input type="number" ng-model="b" placeholder="Enter Second Number">
+<br><br>
+
+<button ng-click="add()">Add</button>
+<button ng-click="sub()">Subtract</button>
+<button ng-click="mul()">Multiply</button>
+<button ng-click="div()">Divide</button>
+
+<button ng-click="clear()">Clear</button>
+
+<h3>Result : {{result}}</h3>
+
+<script>
+
+var app = angular.module("app",[])
+
+app.controller("ctrl",function($scope){
+
+$scope.add = function(){
+$scope.result = Number($scope.a) + Number($scope.b)
+}
+
+$scope.sub = function(){
+$scope.result = Number($scope.a) - Number($scope.b)
+}
+
+$scope.mul = function(){  
+$scope.result = Number($scope.a) * Number($scope.b)
+}
+
+$scope.div = function(){
+$scope.result = Number($scope.a) / Number($scope.b)
+}
+
+$scope.clear = function(){
+$scope.a = ""
+$scope.b = ""
+$scope.result = ""
+}
+
+})
+
+</script>
+
+</body>
+</html>
+  -->
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+<title>To Do List</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+
+<body ng-controller="ctrl">
+
+<h2>Task Manager</h2>
+
+<input type="text" ng-model="item" placeholder="Enter Task">
+<button ng-click="add()">Add</button>
+
+<ul>
+<li ng-repeat="i in items">
+{{i}}
+<button ng-click="remove($index)">Delete</button>
+</li>
+</ul>
+
+<p>Total Tasks : {{items.length}}</p>
+
+<script>
+
+var app = angular.module("app",[]);
+
+app.controller("ctrl",function($scope){
+
+$scope.items = [];
+
+$scope.add = function(){
+if($scope.item){
+$scope.items.push($scope.item);
+$scope.item = "";
+}
+}
+
+$scope.remove = function(index){
+$scope.items.splice(index,1);
+}
+
+});
+
+</script>
+
 </body>
 </html>
